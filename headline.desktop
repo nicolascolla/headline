@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=headline
+Exec=webapp-container --open-external-url-in-overlay --app-id="headline.collaproductions" $@ index.html
+Icon=logo.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+X-Ubuntu-Splash-Color=#4c4c4c
+X-Ubuntu-Splash-Image=splash.png
