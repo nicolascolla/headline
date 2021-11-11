@@ -218,6 +218,42 @@ function onKeywordsChanged(keywords) {
   save();
 }
 
+function darkMode() {
+  localStorage.setItem("darkmode", "1");
+  document.documentElement.style.setProperty('--color-text', '#fafafa');
+  document.documentElement.style.setProperty('--color-text-secondary', '#bdbdbd');
+  document.documentElement.style.setProperty('--color-text-visited', '#757575');
+  document.documentElement.style.setProperty('--color-background', '#000000');
+  document.documentElement.style.setProperty('--color-accent', '#880E4F');
+}
+
+function lightMode() {
+  localStorage.setItem("darkmode", "0");
+  document.documentElement.style.setProperty('--color-text', '#212121');
+  document.documentElement.style.setProperty('--color-text-secondary', '#bdbdbd');
+  document.documentElement.style.setProperty('--color-text-visited', '#757575');
+  document.documentElement.style.setProperty('--color-background', '#ffffff');
+  document.documentElement.style.setProperty('--color-accent', '#FFFF00');
+}
+
+function toggleDarkMode() {
+  if (localStorage.getItem("darkmode") == 1) {
+    lightMode();
+  } else {
+    darkMode();
+  }
+}
+
+// restore dark mode state after a reboot
+function restoreDarkModeState() {
+  if (localStorage.getItem("darkmode") == 1) {
+    darkMode();
+  } else {
+    lightMode();
+  }
+}
+restoreDarkModeState();
+
 (async () => {
   // Register service worker for PWA
   navigator.serviceWorker.register('sw.js');
@@ -240,4 +276,7 @@ function onKeywordsChanged(keywords) {
   // Hide loading indicator
   loading.classList.add('hidden');
   render(urlFilter);
+  
+  // Hide "loading" message
+  document.getElementById("loadingmessage").style.display = 'none';
 })();

@@ -49,12 +49,14 @@
           </template>
         </ul>
       </section>
-      <section>
+      <section id="newfeed">
         <a onclick="onAddFeedClicked()">Add new feed…</a>
       </section>
       <section>
         <label for="keywords"><h3>Highlight by keywords:</h3></label>
-        <textarea id="keywords" rows="4" cols="49" oninput="onKeywordsChanged(this.value)"></textarea>
+        <textarea id="keywords" rows="4" style="width:100%" oninput="onKeywordsChanged(this.value)"></textarea>
+      </section>
+      <section id="keywordbtn">
         <button onclick="onDoneClicked()">Done</button>
       </section>
     </header>
@@ -70,6 +72,14 @@
         </template>
       </ul>
     </article>
+    
+    
+    <footer>
+      <!-- Loading message (dissapears after fetching all entries) -->
+      <p id="loadingmessage">(Loading...)</p>
+      <!-- Dark mode button -->
+      <a onclick="toggleDarkMode()"><span style="font-weight: normal;">&#9789;</span> Toggle dark mode</a>
+    </footer>
 
     <script src="app.js"></script>
   </body>

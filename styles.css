@@ -1,14 +1,19 @@
 /* Theme */
 :root {
+
+/* THESE THINGS ARE DONE VIA JAVASCRIPT NOW:
   --color-text: #212121;
   --color-text-secondary: #bdbdbd;
   --color-text-visited: #757575;
   --color-accent: #FFFF00;
   --color-background: #ffffff;
+*/
+
   --line-height: 140%;
   --font-family: 'Liberation Serif', 'PT Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
+/* ALSO VIA JAVASCRIPT:
 @media (prefers-color-scheme: dark) {
   :root {
     --color-text: #fafafa;
@@ -18,14 +23,14 @@
     --color-accent: #880E4F;
   }
 }
+*/
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-family: var(--font-family); font-size: 62.5%; }
-body { font-size: 1.8em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); }
+body { font-size: 1.8em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); max-width: 800px; margin-left: auto; margin-right: auto; }
 ul, li { list-style: none; padding: 0; }
 a { cursor: pointer; color: var(--text-color); font-style: italic; text-decoration: underline; }
 button, textarea {
-  font-family: 'Ubuntu', sans-serif;
   font-size: inherit;
   color: inherit;
   outline: none;
@@ -34,9 +39,11 @@ button, textarea {
   background: none;
   padding: 0.5rem;
 }
-textarea { max-width: 100%; }
-button { font-weight: bold; padding: 0.5rem 2rem; background-color: var(--color-text); color: var(--color-background); }
+textarea { font-family: 'Liberation Serif', 'PT Serif', Georgia, Cambria, 'Times New Roman', Times, serif; }
+button { font-family: 'Ubuntu', sans-serif; font-weight: bold; padding: 0.5rem 2rem; background-color: var(--color-text); color: var(--color-background); }
 section { margin: 2rem; }
+#keywordbtn { margin-top: -1.6rem; }
+#newfeed { margin-bottom: 3rem; }
 h3 {
     font-family: 'Ubuntu', sans-serif;
     font-size: 1.4em;
@@ -110,3 +117,10 @@ nav, nav a { display: flex; align-items: center; height: 6rem; padding: 0 1rem; 
 #news a:visited, #news a:visited em { color: var(--color-text-visited); }
 #news span.marked { background-color: var(--color-accent); }
 #news a:visited span.marked { background-color: var(--color-background); }
+
+/*
+ * Footer
+ */
+footer { padding: 2rem 0; text-align: center; font-size: 0.9em; font-family: 'Ubuntu', sans-serif; }
+footer a { font-weight: bold; font-style: normal; text-decoration: none; }
+#loadingmessage { color: var(--color-text-secondary); padding: 1em; font-size: 2.5em; font-weight: bold; }
