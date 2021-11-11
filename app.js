@@ -1,14 +1,30 @@
 const DEFAULT_CORS_PROXY = url => `https://cors.zserge.com/?u=${encodeURIComponent(url)}`;
 
 const DEFAULT_FEEDS = [
-  'https://news.google.com/rss',
-  'https://www.reddit.com/r/programming.rss',
-  'https://www.reddit.com/r/golang.rss',
-  'https://www.reddit.com/r/todayilearned.rss',
+  'https://www.rt.com/rss/news/',
+  'https://greenwald.substack.com/feed',
+  'https://edwardsnowden.substack.com/feed',
+  'https://www.theguardian.com/international/rss',
+  'https://www.theguardian.com/profile/georgemonbiot/rss',
+  'https://astralcodexten.substack.com/feed',
+  'https://solar.lowtechmagazine.com/feeds/all-en.atom.xml',
+  'https://english.vilaweb.cat/feed/',
+  'https://jacobinmag.com/feed',
+  'https://www.notechmagazine.com/feed',
+  'https://nntaleb.medium.com/feed',
+  'https://jacobitemag.com/feed/',
+  'https://www.brainpickings.org/feed/',
+  'https://www.washingtontimes.com/rss/headlines/news/',
+  'https://www.theguardian.com/profile/simonjenkins/rss',
+  'https://publicdomainreview.org/rss.xml',
+  'https://quillette.com/rss/',
+  'https://theconversation.com/articles.atom?language=en',
+  'https://globalvoices.org/feed/?cat=-28',
+  'https://aeon.co/feed.rss',
 ];
 
-const MAX_NEWS_PER_FEED = 500;
-const MAX_NEWS_ON_PAGE = 1000;
+const MAX_NEWS_PER_FEED = 1000;
+const MAX_NEWS_ON_PAGE = 300;
 
 const loading = document.querySelector('#loading');
 const menu = document.querySelector('#menu');
