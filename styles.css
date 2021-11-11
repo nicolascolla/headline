@@ -6,7 +6,7 @@
   --color-accent: #FFFF00;
   --color-background: #ffffff;
   --line-height: 140%;
-  --font-family: 'PT Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-family: 'Liberation Serif', 'PT Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,11 +21,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-family: var(--font-family); font-size: 62.5%; }
-body { font-size: 1.6em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); }
+body { font-size: 1.8em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); }
 ul, li { list-style: none; padding: 0; }
 a { cursor: pointer; color: var(--text-color); font-style: italic; text-decoration: underline; }
 button, textarea {
-  font-family: inherit;
+  font-family: 'Ubuntu', sans-serif;
   font-size: inherit;
   color: inherit;
   outline: none;
@@ -37,6 +37,10 @@ button, textarea {
 textarea { max-width: 100%; }
 button { font-weight: bold; padding: 0.5rem 2rem; background-color: var(--color-text); color: var(--color-background); }
 section { margin: 2rem; }
+h3 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.4em;
+}
 
 /*
  * Loading indicator
