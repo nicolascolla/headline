@@ -1,4 +1,4 @@
-const DEFAULT_CORS_PROXY = url => `https://cors.zserge.com/?u=${encodeURIComponent(url)}`;
+const DEFAULT_CORS_PROXY = url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
 
 const DEFAULT_FEEDS = [
   'https://www.rt.com/rss/news/',
