@@ -47,6 +47,10 @@ section { margin: 2rem; }
 h3 {
     font-family: 'Ubuntu', sans-serif;
     font-size: 1.4em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width:100%;         
 }
 
 /*
