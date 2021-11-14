@@ -27,7 +27,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-family: var(--font-family); font-size: 62.5%; }
-body { font-size: 1.8em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); max-width: 800px; margin-left: auto; margin-right: auto; }
+body { font-size: 1.8em; background: var(--color-background); color: var(--color-text); line-height: var(--line-height); }
 ul, li { list-style: none; padding: 0; }
 a { cursor: pointer; color: var(--text-color); font-style: italic; text-decoration: underline; }
 button, textarea {
@@ -88,6 +88,7 @@ h3 {
 /*
  * Menu button
  */
+nav { max-width: 800px; margin-left: auto; margin-right: auto; }
 nav, nav a { display: flex; align-items: center; height: 6rem; padding: 0 1rem; }
 #menu path { transition: all 0.4s cubic-bezier(.645, .045, .355, 1); }
 #menu path:nth-child(1),
@@ -103,13 +104,13 @@ nav, nav a { display: flex; align-items: center; height: 6rem; padding: 0 1rem; 
  * Settings screen
  */
 #settings h3 { margin-top: 2rem; margin-bottom: 1rem; }
-#settings { opacity: 0; height: 0; overflow: hidden; transition: opacity 0.5s ease-out; }
+#settings { opacity: 0; height: 0; overflow: hidden; transition: opacity 0.5s ease-out; max-width: 800px; margin-left: auto; margin-right: auto; }
 #settings.shown{ opacity: 1; height: auto; margin-bottom: 6rem; }
 
 /*
  * News feed
  */
-#news { padding: 0 2rem 2rem 2rem; }
+#news { padding: 0 2rem 2rem 2rem; max-width: 800px; margin-left: auto; margin-right: auto; }
 #news a { font-style: normal; text-decoration: none; }
 #news h3:not(:empty) { margin-top: 2rem; margin-bottom: 1rem; }
 #news li { margin-bottom: 0.5rem; }
