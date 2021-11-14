@@ -190,13 +190,9 @@ function onDoneClicked() {
 function onAddFeedClicked() {
   var url = prompt(`Enter feed address (full URL is recommended):`);
   if (url) {
-    // if feed does not contain "www.", add "http://www."
-    if (!url.includes("www.")) {
-      var www = "http://www.";
-      url = www + url;
     // if feed does not contain "https://" or "http://", add "http://"
     // (we assume all "http://" links will be redirected to "https://" if available)
-    } else if (!url.includes("https://" || "http://")) {
+    if (!url.includes("https://" || "http://")) {
         var http = "http://";
         url = http + url;
     }
