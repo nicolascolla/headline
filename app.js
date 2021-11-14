@@ -110,7 +110,7 @@ function renderSettings() {
       if (confirm(`Remove ${f.url}?`)) {
         state.feeds = state.feeds.filter(x => x.url !== f.url);
         save();
-        window.location.reload();
+        renderSettings();
       }
     };
     newsFeeds.appendChild(el);
