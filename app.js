@@ -110,7 +110,10 @@ function renderSettings() {
       if (confirm(`Remove ${f.url}?`)) {
         state.feeds = state.feeds.filter(x => x.url !== f.url);
         save();
+        // remove feed from list
         renderSettings();
+        // remove entries from deleted feed
+        render(urlFilter = '');
       }
     };
     newsFeeds.appendChild(el);
