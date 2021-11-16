@@ -5,6 +5,7 @@
 (icon by the [Numix Project](https://github.com/numixproject/numix-icon-theme-square) - GPL-3.0)
 
 [![OpenStore](https://open-store.io/badges/en_US.png)](https://open-store.io/app/headline.collaproductions)
+[![](https://i.imgur.com/KIipzE8.png)](https://t.me/collaproductions)
 
 headline is a minimal progressive web app for Ubuntu Touch intended to make your news consumption simple and easy, without unnecessary bells and whistles. It displays the headlines of your favourite news sites and it can highlight headlines containing any keywords as requested. The news articles can be visited and read without having to switch applications.
 
