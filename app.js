@@ -1,4 +1,18 @@
-const DEFAULT_CORS_PROXY = url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+// Tried in order; the first one that returns a valid feed wins.
+const CORS_PROXIES = [
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`,
+];
+
+// JSONP endpoints (used when fetch() is blocked, e.g. in the Ubuntu Touch app).
+// Tried in order. To use your own Cloudflare Worker (see worker.js), uncomment
+// the first line and put your Worker's address in it.
+const JSONP_ENDPOINTS = [
+  // (cb, url) => `https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev/?callback=${cb}&url=${encodeURIComponent(url)}`,
+  (cb, url) => `https://api.allorigins.win/get?callback=${cb}&url=${encodeURIComponent(url)}`,
+];
 
 const DEFAULT_FEEDS = [
   'https://ubports.com/blog/ubports-blog-1/feed',
@@ -88,6 +102,81 @@ function parseFeed(text) {
       }));
   }
   return [];
+}
+
+// JSONP fallback via allorigins. It loads a <script> tag instead of using fetch(),
+// and script tags are not subject to CORS. This is what makes it work when the
+// page runs from file:// (Ubuntu Touch app), where fetch() to other origins is blocked.
+function fetchViaJsonp(endpoint, feedUrl) {
+  return new Promise((resolve, reject) => {
+    const cbName = '__feedCb' + Date.now() + Math.floor(Math.random() * 1e6);
+    const script = document.createElement('script');
+    let timer;
+    const cleanup = () => {
+      clearTimeout(timer);
+      delete window[cbName];
+      script.remove();
+    };
+    timer = setTimeout(() => { cleanup(); reject(new Error('JSONP timeout')); }, 20000);
+    window[cbName] = data => {
+      cleanup();
+      let contents = data && data.contents;
+      if (typeof contents !== 'string') {
+        reject(new Error('JSONP: no contents'));
+        return;
+      }
+      // Some responses come back as a base64 data: URI; decode those as UTF-8.
+      if (contents.startsWith('data:')) {
+        try {
+          const b64 = contents.slice(contents.indexOf(',') + 1);
+          const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+          contents = new TextDecoder().decode(bytes);
+        } catch (e) {
+          reject(e);
+          return;
+        }
+      }
+      resolve(contents);
+    };
+    script.onerror = () => { cleanup(); reject(new Error('JSONP load error')); };
+    script.src = endpoint(cbName, feedUrl);
+    document.head.appendChild(script);
+  });
+}
+
+// Fetches a feed through the proxies, falling back to the next on failure.
+async function fetchFeed(feedUrl) {
+  let lastError;
+  for (const proxy of CORS_PROXIES) {
+    // AbortSignal.timeout() doesn't exist in older engines (e.g. Chrome 87),
+    // so use an AbortController + setTimeout instead.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+      const res = await fetch(proxy(feedUrl), { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const entries = parseFeed(await res.text());
+      if (!entries.length) throw new Error('No entries / not a valid feed');
+      return entries;
+    } catch (e) {
+      console.warn('Proxy failed for', feedUrl, e);
+      lastError = e;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  // Last resort: JSONP (works even where fetch() is blocked by CORS)
+  for (const endpoint of JSONP_ENDPOINTS) {
+    try {
+      const entries = parseFeed(await fetchViaJsonp(endpoint, feedUrl));
+      if (!entries.length) throw new Error('No entries / not a valid feed');
+      return entries;
+    } catch (e) {
+      console.warn('JSONP fallback failed for', feedUrl, e);
+      lastError = e;
+    }
+  }
+  throw lastError;
 }
 
 const simplifyLink = link => link.replace(/^.*:\/\/(www\.)?/, '');
@@ -247,14 +336,23 @@ restoreDarkModeState();
 
 (async () => {
   // Register service worker for PWA
-  navigator.serviceWorker.register('sw.js');
+  // (not supported on file://, e.g. inside the Ubuntu Touch app)
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
   // Render cached news
   save();
   renderSettings();
   render(urlFilter);
   // Fetch each feed and render the settings screen
   for (const feed of state.feeds) {
-    const f = parseFeed(await fetch(DEFAULT_CORS_PROXY(feed.url)).then(res => res.text()));
+    let f;
+    try {
+      f = await fetchFeed(feed.url);
+    } catch (e) {
+      console.warn(`Could not load ${feed.url}`, e);
+      continue; // keep cached entries and move on to the next feed
+    }
     feed.entries = feed.entries
       .concat(
         f.filter(e => feed.entries.findIndex(x => (x.link === e.link || x.title === e.title)) < 0),

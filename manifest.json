@@ -9,7 +9,7 @@
             "desktop":  "headline.desktop"
         }
     },
-    "version": "1.1.1",
+    "version": "1.1.2",
     "maintainer": "Nicolás Colla <nicolascolla@mail.ru>",
     "framework" : "@CLICK_FRAMEWORK@"
 }
