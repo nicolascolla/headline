@@ -10,13 +10,12 @@ const CORS_PROXIES = [
 // Tried in order. To use your own Cloudflare Worker (see worker.js), uncomment
 // the first line and put your Worker's address in it.
 const JSONP_ENDPOINTS = [
-  // (cb, url) => `https://YOUR-WORKER.YOUR-SUBDOMAIN.workers.dev/?callback=${cb}&url=${encodeURIComponent(url)}`,
+  (cb, url) => `https://headline.nicolascollacamarote.workers.dev/?callback=${cb}&url=${encodeURIComponent(url)}`,
   (cb, url) => `https://api.allorigins.win/get?callback=${cb}&url=${encodeURIComponent(url)}`,
 ];
 
 const DEFAULT_FEEDS = [
   'https://ubports.com/blog/ubports-blog-1/feed',
-  'https://edwardsnowden.substack.com/feed',
 ];
 
 const MAX_NEWS_PER_FEED = 1000;
